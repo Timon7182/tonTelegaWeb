@@ -6,7 +6,7 @@ import Info from './icons/Info';
 import Friends from './icons/Friends';
 
 const App: React.FC = () => {
-  const [balance, setBalance] = useState(22749365);
+  const [balance] = useState(22749365);
   const tasks = ["Task 1", "Task 2", "Task 3"]; // Example tasks
 
   return (
