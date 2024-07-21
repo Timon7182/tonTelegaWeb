@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Hamster from './icons/Hamster';
 import { binanceLogo } from './images';
@@ -7,7 +7,24 @@ import Friends from './icons/Friends';
 
 const App: React.FC = () => {
   const [balance] = useState(22749365);
+  const [username, setUsername] = useState(''); // State for username
   const tasks = ["Task 1", "Task 2", "Task 3"]; // Example tasks
+
+  useEffect(() => {
+    // Check if Telegram Web Apps API is available
+    if (window.Telegram && window.Telegram.WebApp) {
+      const telegram = window.Telegram.WebApp;
+      telegram.ready();
+      const user = telegram.initDataUnsafe?.user;
+      if (user) {
+        setUsername(user.username || `${user.first_name} ${user.last_name}`);
+      } else {
+        setUsername('Unknown User');
+      }
+    } else {
+      setUsername('Telegram API not available');
+    }
+  }, []);
 
   return (
     <div className="bg-black flex justify-center">
@@ -18,7 +35,7 @@ const App: React.FC = () => {
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
             <div>
-              <p className="text-sm">Nikandr (CEO)</p>
+              <p className="text-sm">{username}</p>
             </div>
           </div>
 
