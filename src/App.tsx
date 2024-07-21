@@ -8,6 +8,7 @@ import Friends from './icons/Friends';
 const App: React.FC = () => {
   const [balance] = useState(22749365);
   const [username, setUsername] = useState(''); // State for username
+  const [userPhoto, setUserPhoto] = useState(''); // State for user photo
   const tasks = ["Task 1", "Task 2", "Task 3"]; // Example tasks
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       const user = telegram.initDataUnsafe?.user;
       if (user) {
         setUsername(user.username || `${user.first_name} ${user.last_name}`);
+        setUserPhoto(user.photo_url || ''); // Set user photo URL
       } else {
         setUsername('Unknown User');
       }
@@ -34,7 +36,10 @@ const App: React.FC = () => {
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
-            <div>
+            <div className="flex items-center space-x-2">
+              {userPhoto && (
+                <img src={userPhoto} alt="User" className="w-8 h-8 rounded-full" />
+              )}
               <p className="text-sm">{username}</p>
             </div>
           </div>
