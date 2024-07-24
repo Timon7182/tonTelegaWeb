@@ -6,24 +6,91 @@ import Info from './icons/Info';
 import Friends from './icons/Friends';
 
 const App: React.FC = () => {
-  const [balance] = useState(22749365);
+  const [balance, setBalance] = useState<number | null>(null);
   const [username, setUsername] = useState(''); // State for username
   const [userPhoto, setUserPhoto] = useState(''); // State for user photo
+  const [balanceLabel, setBalanceLabel] = useState('Balance'); // State for balance label
   const tasks = ["Task 1", "Task 2", "Task 3"]; // Example tasks
 
   useEffect(() => {
+    const fetchBalance = async (hash: string) => {
+      try {
+        const tokenResponse = await fetch('https://tontelega-410f0443bf5d.herokuapp.com/oauth2/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic Y2xpZW50OkpBVmptNGdUcWU=',
+            'Cookie': 'JSESSIONID=FC96BAC6A5341EF14290D76252C00D64'
+          },
+          body: new URLSearchParams({
+            'grant_type': 'client_credentials'
+          })
+        });
+        
+
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
+        console.log(hash);
+
+        const params = new URLSearchParams(hash);
+        
+        const userValue = params.get('user');
+        const chatInstance = params.get('chat_instance');
+        const chatType = params.get('chat_type');
+        const authDate = params.get('auth_date');
+        const hashFinal = params.get('hash');
+        console.log(userValue);
+        console.log(chatInstance);
+        console.log(chatType);
+        console.log(authDate);
+        console.log(hashFinal);
+
+        const balanceResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getBalance?user=${encodeURIComponent(userValue)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Cookie': 'JSESSIONID=FC96BAC6A5341EF14290D76252C00D64'
+          }
+        });
+        console.log(balanceResponse);
+
+        const balanceData = await balanceResponse.json();
+        console.log(balanceData);
+        setBalance(balanceData); // Assuming the response contains the balance directly
+      } catch (error) {
+        console.error('Error fetching balance:', error);
+      }
+    };
+
+    console.log("useEffect triggered");
+
     // Check if Telegram Web Apps API is available
     if (window.Telegram && window.Telegram.WebApp) {
+
       const telegram = window.Telegram.WebApp;
       telegram.ready();
       const user = telegram.initDataUnsafe?.user;
+
       if (user) {
         setUsername(user.username || `${user.first_name} ${user.last_name}`);
         setUserPhoto(user.photo_url || ''); // Set user photo URL
+
+        // Set the balance label based on user language
+        const language = user.language_code || 'en';
+        if (language === 'ru') {
+          setBalanceLabel('Ваш Баланс');
+        } else {
+          setBalanceLabel('Balance');
+        }
+
+        // Fetch balance using hash from Telegram initData
+        fetchBalance(telegram.initData || 'defaultHash');
       } else {
+        console.log("No user data available");
         setUsername('Unknown User');
       }
     } else {
+      console.log("Telegram API not available");
       setUsername('Telegram API not available');
     }
   }, []);
@@ -46,8 +113,8 @@ const App: React.FC = () => {
 
           <div className="mt-4">
             <div className="bg-[#272a2f] p-4 rounded-lg">
-              <p className="text-lg">Balance</p>
-              <p className="text-2xl">{balance.toLocaleString()} coins</p>
+              <p className="text-lg">{balanceLabel}</p>
+              <p className="text-2xl">{balance !== null ? balance.toLocaleString() + ' coins' : 'Loading...'}</p>
             </div>
             <div className="bg-[#272a2f] p-4 rounded-lg mt-4">
               <p className="text-lg">Tasks</p>
