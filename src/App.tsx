@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Hamster from './icons/Hamster';
-import { binanceLogo } from './images';
+import { logo } from './images';
 import Info from './icons/Info';
 import Friends from './icons/Friends';
 
@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [language, setLanguage] = useState('en'); // State for language
   const [loadingTaskId, setLoadingTaskId] = useState<string | null>(null); // State for loading animation
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
+  const [currentPage, setCurrentPage] = useState<string>('home'); // State for current page
 
   const fetchUserInfo = async (hash: string) => {
     try {
@@ -63,7 +64,12 @@ const App: React.FC = () => {
       const userInfoData = await userInfoResponse.json();
       console.log(userInfoData);
       setBalance(userInfoData.balance); // Assuming the response contains the balance directly
-      setTasks(userInfoData.tasks); // Set tasks from the response
+
+      // Sort tasks by createdDate
+      const sortedTasks = userInfoData.tasks.sort((a: any, b: any) => {
+        return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+      });
+      setTasks(sortedTasks); // Set sorted tasks to the state
     } catch (error) {
       console.error('Error fetching user info:', error);
     }
@@ -187,6 +193,46 @@ const App: React.FC = () => {
     );
   };
 
+  const renderContent = () => {
+    if (currentPage === 'home') {
+      return (
+        <div>
+          <div className="mt-4">
+            <div className="bg-[#272a2f] p-4 rounded-lg">
+              <p className="text-lg">Баланс</p>
+              <p className="text-2xl">{balance !== null ? balance.toLocaleString() + ' coins' : 'Loading...'}</p>
+            </div>
+            <div className="bg-[#272a2f] p-4 rounded-lg mt-4 overflow-auto max-h-96">
+              <p className="text-lg">{language === 'ru' ? 'Ваши Задачи' : 'Tasks'}</p>
+              <ul className="space-y-2">
+                {tasks.map((task, index) => (
+                  <li key={index} className="bg-[#1d2025] p-2 rounded-lg flex justify-between items-center">
+                    <div>
+                      {language === 'ru' ? task.task.taskName : task.task.taskNameEn}
+                    </div>
+                    {renderTaskButton(task, language)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-[#272a2f] p-4 rounded-lg mt-4">
+              <p className="text-lg">{language === 'ru' ? 'Топ платформы' : 'Top Games'}</p>
+              {/* Leave empty for now */}
+            </div>
+          </div>
+        </div>
+      );
+    } else if (currentPage === 'friends' || currentPage === 'info') {
+      return (
+        <div className="mt-4 bg-[#272a2f] p-4 rounded-lg">
+          <p className="text-lg">
+            {language === 'ru' ? 'Мы работаем над этим функицоналом' : 'We are working on it'}
+          </p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="bg-black flex justify-center relative">
       {successMessage && (
@@ -207,44 +253,30 @@ const App: React.FC = () => {
               <p className="text-sm">{username}</p>
             </div>
           </div>
-
-          <div className="mt-4">
-            <div className="bg-[#272a2f] p-4 rounded-lg">
-              <p className="text-lg">Баланс</p>
-              <p className="text-2xl">{balance !== null ? balance.toLocaleString() + ' coins' : 'Loading...'}</p>
-            </div>
-            <div className="bg-[#272a2f] p-4 rounded-lg mt-4 overflow-auto max-h-96">
-              <p className="text-lg">Tasks</p>
-              <ul className="space-y-2">
-                {tasks.map((task, index) => (
-                  <li key={index} className="bg-[#1d2025] p-2 rounded-lg flex justify-between items-center">
-                    <div>
-                      {language === 'ru' ? task.task.taskName : task.task.taskNameEn}
-                    </div>
-                    {renderTaskButton(task, language)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-[#272a2f] p-4 rounded-lg mt-4">
-              <p className="text-lg">Top Games</p>
-              {/* Leave empty for now */}
-            </div>
-          </div>
+          {renderContent()}
         </div>
       </div>
 
       {/* Bottom fixed div */}
       <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
-        <div className="text-center text-[#85827d] w-1/5 bg-[#1c1f24] m-1 p-2 rounded-2xl">
-          <img src={binanceLogo} alt="Home" className="w-8 h-8 mx-auto" />
+        <div
+          className={`text-center text-[#85827d] w-1/5 bg-[#1c1f24] m-1 p-2 rounded-2xl ${currentPage === 'home' ? 'bg-[#1c1f24]' : ''}`}
+          onClick={() => setCurrentPage('home')}
+        >
+          <img src={logo} alt="Home" className="w-8 h-8 mx-auto" />
           <p className="mt-1">Home</p>
         </div>
-        <div className="text-center text-[#85827d] w-1/5">
+        <div
+          className={`text-center text-[#85827d] w-1/5 ${currentPage === 'friends' ? 'bg-[#1c1f24]' : ''}`}
+          onClick={() => setCurrentPage('friends')}
+        >
           <Friends className="w-8 h-8 mx-auto" />
           <p className="mt-1">Friends</p>
         </div>
-        <div className="text-center text-[#85827d] w-1/5">
+        <div
+          className={`text-center text-[#85827d] w-1/5 ${currentPage === 'info' ? 'bg-[#1c1f24]' : ''}`}
+          onClick={() => setCurrentPage('info')}
+        >
           <Info className="w-8 h-8 mx-auto" />
           <p className="mt-1">Info</p>
         </div>
