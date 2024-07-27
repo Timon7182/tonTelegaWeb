@@ -9,7 +9,6 @@ const App: React.FC = () => {
   const [balance, setBalance] = useState<number | null>(null);
   const [username, setUsername] = useState(''); // State for username
   const [userPhoto, setUserPhoto] = useState(''); // State for user photo
-  const [balanceLabel, setBalanceLabel] = useState('Balance'); // State for balance label
   const [tasks, setTasks] = useState<any[]>([]); // State for tasks
   const [language, setLanguage] = useState('en'); // State for language
   const [loadingTaskId, setLoadingTaskId] = useState<string | null>(null); // State for loading animation
@@ -126,7 +125,7 @@ const App: React.FC = () => {
         const tokenData = await tokenResponse.json();
         const accessToken = tokenData.access_token;
 
-        const params = new URLSearchParams(window.Telegram.WebApp.initData);
+        const params = new URLSearchParams(window.Telegram?.WebApp.initData || '');
         const userValue = params.get('user');
         const chatInstance = params.get('chat_instance');
         const chatType = params.get('chat_type');
@@ -146,7 +145,7 @@ const App: React.FC = () => {
           setTimeout(() => {
             setSuccessMessage(null);
           }, 3000);
-          fetchUserInfo(window.Telegram.WebApp.initData || 'defaultHash');
+          fetchUserInfo(window.Telegram?.WebApp.initData || 'defaultHash');
         } else {
           console.error('Error accomplishing task');
         }
@@ -211,7 +210,7 @@ const App: React.FC = () => {
 
           <div className="mt-4">
             <div className="bg-[#272a2f] p-4 rounded-lg">
-              <p className="text-lg">{balanceLabel}</p>
+              <p className="text-lg">Баланс</p>
               <p className="text-2xl">{balance !== null ? balance.toLocaleString() + ' coins' : 'Loading...'}</p>
             </div>
             <div className="bg-[#272a2f] p-4 rounded-lg mt-4 overflow-auto max-h-96">
