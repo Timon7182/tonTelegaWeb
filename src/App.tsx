@@ -141,7 +141,7 @@ const App: React.FC = () => {
 
         const queryId = params.get('query_id');
 
-        const accomplishTaskResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/accomplishTask?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&taskId=${task.id}&query_id${queryId}`, {
+        const accomplishTaskResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/accomplishTask?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&taskId=${task.id}&query_id=${queryId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
