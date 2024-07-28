@@ -53,7 +53,7 @@ const App: React.FC = () => {
       const languageCode = userObject.language_code;
       setLanguage(languageCode);
 
-      const userInfoResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getUserInfo?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&query_id${queryId}`, {
+      const userInfoResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getUserInfo?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&query_id=${queryId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
