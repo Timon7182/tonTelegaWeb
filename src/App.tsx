@@ -39,6 +39,7 @@ const App: React.FC = () => {
       const chatType = params.get('chat_type');
       const authDate = params.get('auth_date');
       const hashFinal = params.get('hash');
+      const queryId = params.get('query_id');
 
       console.log(userValue);
       console.log(chatInstance);
@@ -52,7 +53,7 @@ const App: React.FC = () => {
       const languageCode = userObject.language_code;
       setLanguage(languageCode);
 
-      const userInfoResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getUserInfo?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}`, {
+      const userInfoResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getUserInfo?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&query_id${queryId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -138,7 +139,9 @@ const App: React.FC = () => {
         const authDate = params.get('auth_date');
         const hashFinal = params.get('hash');
 
-        const accomplishTaskResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/accomplishTask?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&taskId=${task.id}`, {
+        const queryId = params.get('query_id');
+
+        const accomplishTaskResponse = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/accomplishTask?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&taskId=${task.id}&query_id${queryId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
