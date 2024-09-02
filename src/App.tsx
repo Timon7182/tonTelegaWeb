@@ -302,24 +302,24 @@ const App: React.FC = () => {
             </div>
           </div>
           <ProjectsBlock language={language} accessToken={accessToken} onSuccess={handleSuccess} 
-          userValue={userValue}
-          chatInstance={chatInstance}
-          chatType={chatType}
-          authDate={authDate}
-          hashFinal={hashFinal}
-          queryId={queryId}
+          userValue={userValue ?? ''}
+          chatInstance={chatInstance ?? ''}
+          chatType={chatType ?? ''}
+          authDate={authDate ?? ''}
+          hashFinal={hashFinal ?? ''}
+          queryId={queryId ?? ''}
           />
         </>
       );
     } else if (currentPage === 'projects') {
       return (
         <ProjectsBlock language={language} accessToken={accessToken} onSuccess={handleSuccess} 
-          userValue={userValue}
-          chatInstance={chatInstance}
-          chatType={chatType}
-          authDate={authDate}
-          hashFinal={hashFinal}
-          queryId={queryId}
+          userValue={userValue ?? ''}
+          chatInstance={chatInstance ?? ''}
+          chatType={chatType ?? ''}
+          authDate={authDate ?? ''}
+          hashFinal={hashFinal ?? ''}
+          queryId={queryId ?? ''}
           />
       );
     }else if (currentPage === 'info') {
@@ -334,14 +334,14 @@ const App: React.FC = () => {
           balance={balance!}
           onSuccess={handleSuccess}
           language={language}
-          token={accessToken}
+          token={accessToken ?? ''}
           onClose={() => setCurrentPage('home')}
-          userValue={userValue}
-          chatInstance={chatInstance}
-          chatType={chatType}
-          authDate={authDate}
-          hashFinal={hashFinal}
-          queryId={queryId}
+          userValue={userValue ?? ''}
+          chatInstance={chatInstance ?? ''}
+          chatType={chatType ?? ''}
+          authDate={authDate ?? ''}
+          hashFinal={hashFinal ?? ''}
+          queryId={queryId ?? ''}
         />
       );
     }
