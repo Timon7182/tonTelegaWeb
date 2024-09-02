@@ -59,12 +59,12 @@ const App: React.FC = () => {
       const hashFinal = params.get('hash');
       const queryId = params.get('query_id');
       
-      setUserValue(userValue);
-      setChatInstance(chatInstance);
-      setChatType(chatType);
-      setAuthDate(authDate);
-      setHashFinal(hashFinal);
-      setQueryId(queryId);
+      setUserValue(userValue ?? '');
+      setChatInstance(chatInstance ?? '');
+      setChatType(chatType ?? '');
+      setAuthDate(authDate ?? '');
+      setHashFinal(hashFinal ?? '');
+      setQueryId(queryId ?? '');
       
       const decodedUserValue = decodeURIComponent(userValue as string);
       const userObject = JSON.parse(decodedUserValue);
@@ -94,7 +94,7 @@ const App: React.FC = () => {
   };
 
   const handleTaskCountClick = async () => {
-    if (taskCount > 0 && accessToken) {
+    if ((taskCount ?? 0)> 0 && accessToken) {
       setShowTaskListPopup(true);
       try {
         const response = await fetch(`https://tontelega-410f0443bf5d.herokuapp.com/rest/services/yel_TelegramWebService/getTasks?user=${encodeURIComponent(userValue as string)}&chat_instance=${chatInstance}&chat_type=${chatType}&auth_date=${authDate}&hash=${hashFinal}&query_id=${queryId}`, {
@@ -377,6 +377,7 @@ const App: React.FC = () => {
           renderTaskButton={renderTaskButton}
           onClose={() => setShowTaskListPopup(false)}
           language={language}
+          isLoading={isLoading}
         />
       )}
       {!isLoading && (  // Conditionally render the bottom navigation buttons

@@ -37,7 +37,7 @@ const CashoutPage: React.FC<CashoutPageProps> = ({ onClose, onSuccess, language,
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
-        redirect: "follow",
+        redirect: "follow" as RequestRedirect,
       };
 
       fetch(

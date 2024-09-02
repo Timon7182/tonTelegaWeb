@@ -5,7 +5,7 @@ interface TaskListPopupProps {
   renderTaskButton: (task: any, language: string) => JSX.Element;
   onClose: () => void;
   language: string;
-  isLoading: boolean; // Prop to indicate loading state
+  isLoading: boolean; 
 }
 
 const TaskListPopup: React.FC<TaskListPopupProps> = ({ tasks, renderTaskButton, onClose, language, isLoading }) => {
