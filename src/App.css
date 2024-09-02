@@ -80,3 +80,55 @@
     transform: translateY(-50px);
   }
 }
+.bg-[#272a2f] {
+  background-color: #272a2f;
+}
+
+.text-gray-300 {
+  color: #b3b3b3;
+}
+
+.text-yellow-500 {
+  color: #f5d142;
+}
+
+.bg-gradient-to-b {
+  background: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
+.from-orange-500 {
+  --tw-gradient-from: #f97316; /* This is Tailwind's orange-500 */
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(249, 115, 22, 0));
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.text-4xl {
+  font-size: 2.25rem; /* Tailwind's 4xl size */
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.space-x-2 > :not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
