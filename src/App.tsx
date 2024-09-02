@@ -263,7 +263,7 @@ const App: React.FC = () => {
                   ) : (
                     <button
                       onClick={handleTaskCountClick}
-                      className="text-sm text-left text-teal-400 underline focus:outline-none"
+                      className="text-sm text-left text-white focus:outline-none cursor-default"
                     >
                       {language === 'ru' ? `Пул задач: ${taskCount}` : `Active tasks: ${taskCount}`}
                     </button>
