@@ -356,7 +356,7 @@ const App: React.FC = () => {
         </div>
       )}
       <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
-        <div className="px-4 z-10">
+        <div className="px-4 z-10 flex-grow overflow-y-auto pb-24"> {/* Added flex-grow, overflow-y-auto, and padding-bottom */}
           <div className="flex items-center space-x-2 pt-4">
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
@@ -395,7 +395,7 @@ const App: React.FC = () => {
           >
             <Friends className="w-8 h-8 mx-auto" />
             <p className="mt-1">
-            {language === 'ru' ? 'Проекты' : 'Projects'}
+              {language === 'ru' ? 'Проекты' : 'Projects'}
             </p>
           </div>
           <div
@@ -409,6 +409,7 @@ const App: React.FC = () => {
       )}
     </div>
   );
+  
 };
 
 export default App;
